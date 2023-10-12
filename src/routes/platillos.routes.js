@@ -5,6 +5,7 @@ import {
     updatePlatillo,
     deletePlatillo,
     getPlatilloID,
+    activateOrDeactivatePlatillo,
 } from '../controllers/platillos.controllers.js';
 
 
@@ -15,5 +16,6 @@ router.get('/platillos/:id', getPlatilloID);
 router.post('/platillos', createPlatillo);
 router.put('/platillos/:id', updatePlatillo);
 router.delete('/platillos/:id', deletePlatillo);
+router.put('/platillos/:id/:estado', activateOrDeactivatePlatillo);
 
 export default router;

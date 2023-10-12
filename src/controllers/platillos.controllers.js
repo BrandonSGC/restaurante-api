@@ -138,3 +138,34 @@ export const deletePlatillo = async(req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const activateOrDeactivatePlatillo = async (req, res) => {
+    try {
+        const { id, estado } = req.params;
+
+        const platillo = await Platillo.findByPk(id);
+
+        if (platillo) {
+            if (estado === '0' || estado === '1') {
+                platillo.activo = estado === '1'; 
+                await platillo.save();
+
+                res.status(200).json({
+                    message: `Platillo ${platillo.nombre} ha sido ${
+                        platillo.activo ? 'activado' : 'desactivado'
+                    }`,
+                    platillo,
+                });
+            } else {
+                res.status(400).json({
+                    message: "El estado debe ser 0 (inactivo) o 1 (activo)",
+                });
+            }
+        } else {
+            res.status(404).json({ message: "Platillo no encontrado." });
+        }
+    } catch (error) {
+        console.log(`Ocurrió un error al activar/desactivar un platillo: ${error.message}`);
+        res.status(500).json({ message: error.message });
+    }
+};
